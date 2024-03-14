@@ -5,13 +5,12 @@ from .models import Chat
 
 @admin.register(Chat)
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ("id", "user_id")
+    list_display = ("id", "user")  # change 'user_id' to 'user'
     readonly_fields = ("id", "created_at", "updated_at")
-
 
     fieldsets = (
         (None,
-            {"fields": ("id", "user_id")}
+            {"fields": ("id", "user")}  # change 'user_id' to 'user'
         ),
         ("Chat Details", 
             {
@@ -21,13 +20,13 @@ class ChatAdmin(admin.ModelAdmin):
                 )
             } 
         ),
-    )
-    (
-        "Timestamps",
-        {
-            "fields": (
-                "created_at",
-                "updated_at",
-            )
-        },
+        (
+            "Timestamps",
+            {
+                "fields": (
+                    "created_at",
+                    "updated_at",
+                )
+            },
+        )
     )

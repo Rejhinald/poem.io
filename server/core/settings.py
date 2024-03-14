@@ -24,7 +24,21 @@ INSTALLED_APPS = [
     "rest_framework",
     # Apps
     "apps.chats",
+    # CORS Headers
+    "corsheaders",
+    # User
+    "apps.user",
+    # Authentication
+    "rest_framework.authtoken",
 ]
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://127.0.0.1:9000"
+]
+
+AUTH_USER_MODEL = 'user.CustomUser'
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -34,6 +48,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"

@@ -7,7 +7,11 @@ import google.generativeai as genai
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated 
+
+# Token Authorization
+from rest_framework.authentication import TokenAuthentication
+
 
 # Models
 from .models import Chat
@@ -19,7 +23,9 @@ from .serializers import ChatSerializers
 genai.configure(api_key=os.environ["API_KEY"])
 
 class ChatCreateView(CreateAPIView):
-    permission_classes = [AllowAny]
+    from rest_framework.authentication import TokenAuthentication
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializers = ChatSerializers(data=request.data)    
@@ -28,8 +34,6 @@ class ChatCreateView(CreateAPIView):
         prompt = serializers.validated_data["prompt"]
 
         # Gemini Model Configuration
-
-            # Gemini Model Configuration
         generation_config = {
                 "temperature": 0.9,
                 "top_p": 1,
@@ -56,7 +60,7 @@ class ChatCreateView(CreateAPIView):
                 }
             ]
 
-            # Generate response using Gemini model
+        # Generate response using Gemini model
         model = genai.GenerativeModel(
                 model_name="gemini-pro",
                 generation_config=generation_config,
@@ -65,15 +69,22 @@ class ChatCreateView(CreateAPIView):
         response = model.generate_content([prompt])
         generated_response = response.text.strip()
 
-            # Return response
+        # Create a new Chat object
+        chat = Chat.objects.create(
+            user=request.user if request.user.is_authenticated else None,
+            prompt=prompt,
+            message=generated_response
+        )
+
+        # Return response
         if isinstance(response, str):
-                return Response({
-                    "status": "error",
-                    "prompt": generated_response,
-                }, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "error",
+                "prompt": generated_response,
+            }, status=status.HTTP_400_BAD_REQUEST)
         else:
-                return Response({
-                    "status": "success",
-                    "response": generated_response,
-                    "message": "Chat created successfully!"
-                }, status=status.HTTP_201_CREATED)
+            return Response({
+                "status": "success",
+                "response": generated_response,
+                "message": "Chat created successfully!"
+            }, status=status.HTTP_201_CREATED)
