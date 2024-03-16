@@ -8,6 +8,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated 
+from rest_framework.generics import ListAPIView
+from rest_framework.generics import RetrieveAPIView
+
 
 # Token Authorization
 from rest_framework.authentication import TokenAuthentication
@@ -88,3 +91,25 @@ class ChatCreateView(CreateAPIView):
                 "response": generated_response,
                 "message": "Chat created successfully!"
             }, status=status.HTTP_201_CREATED)
+
+class AllChatLogsView(ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChatSerializers
+    queryset = Chat.objects.all()
+
+class UserChatLogsView(ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChatSerializers
+
+    def get_queryset(self):
+        user = self.request.user
+        return Chat.objects.filter(user=user)
+
+
+class SingleChatView(RetrieveAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChatSerializers
+    queryset = Chat.objects.all()
