@@ -95,58 +95,58 @@ export default function Navbar() {
   };
 
   return (
-    user !== null && (
-      <AppBar position="sticky" className="backdrop-filter backdrop-blur-lg bg-white bg-opacity-40 rounded-full mx-auto my-2 w-11/12 text-black top-0 left-0 right-0 m-auto">
-        <Toolbar className="flex justify-between items-center">
-          {isMobile ? (
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
-              <MenuIcon />
-            </IconButton>
-          ) : null}
-          <Typography variant="h6">
-            Logo
-          </Typography>
+    <AppBar position="sticky" className="backdrop-filter backdrop-blur-lg bg-white bg-opacity-40 rounded-full mx-auto my-2 w-11/12 text-black top-0 left-0 right-0 m-auto">
+      <Toolbar className="flex justify-between items-center">
+        {isMobile ? (
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+            <MenuIcon />
+          </IconButton>
+        ) : null}
+        <Typography variant="h6">
+          Logo
+        </Typography>
+        <div className="flex items-center space-x-4">
+          {!isMobile && user && (
+            <>
+              <Button color="inherit" onClick={() => router.push('/home')}>Home</Button>
+              <Button color="inherit" onClick={() => router.push('/chat')}>Chat</Button>
+              <Button color="inherit" onClick={() => router.push('/history')}>History</Button>
+              <Button color="inherit" onClick={() => router.push('/tutorial')}>Tutorial</Button>
+              <Button color="inherit" onClick={() => router.push('/faq')}>FAQ</Button>
+            </>
+          )}
           {user ? (
-            <div className="flex items-center space-x-4">
-              {!isMobile && (
-                <>
-                  <Button color="inherit" onClick={() => router.push('/home')}>Home</Button>
-                  <Button color="inherit" onClick={() => router.push('/chat')}>Chat</Button>
-                  <Button color="inherit" onClick={() => router.push('/history')}>History</Button>
-                  <Button color="inherit" onClick={() => router.push('/tutorial')}>Tutorial</Button>
-                  <Button color="inherit" onClick={() => router.push('/faq')}>FAQ</Button>
-                </>
-              )}
+            <>
               <Typography variant="body1">{user.email}</Typography>
               <Button color="inherit" onClick={handleLogout}>Logout</Button>
-            </div>
+            </>
           ) : (
             <Button color="inherit" onClick={handleLogin}>Login</Button>
           )}
-        </Toolbar>
-        {isMobile && (
-          <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-            <List>
-              <ListItem onClick={() => router.push('/home')}>
-                <ListItemText primary="Home" />
-              </ListItem>
-              <ListItem onClick={() => router.push('/chat')}>
-                <ListItemText primary="Chat" />
-              </ListItem>
-              <ListItem onClick={() => router.push('/history')}>
-                <ListItemText primary="History" />
-              </ListItem>
-              <ListItem onClick={() => router.push('/tutorial')}>
-                <ListItemText primary="Tutorial" />
-              </ListItem>
-              <ListItem onClick={() => router.push('/faq')}>
-                <ListItemText primary="FAQ" />
-              </ListItem>
-              {/* Add more navigation items here */}
-            </List>
-          </Drawer>
-        )}
-      </AppBar>
-    )
+        </div>
+      </Toolbar>
+      {isMobile && (
+        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+          <List>
+            <ListItem onClick={() => router.push('/home')}>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem onClick={() => router.push('/chat')}>
+              <ListItemText primary="Chat" />
+            </ListItem>
+            <ListItem onClick={() => router.push('/history')}>
+              <ListItemText primary="History" />
+            </ListItem>
+            <ListItem onClick={() => router.push('/tutorial')}>
+              <ListItemText primary="Tutorial" />
+            </ListItem>
+            <ListItem onClick={() => router.push('/faq')}>
+              <ListItemText primary="FAQ" />
+            </ListItem>
+            {/* Add more navigation items here */}
+          </List>
+        </Drawer>
+      )}
+    </AppBar>
   );
 }
