@@ -137,13 +137,6 @@ export default function Navbar() {
             <ListItem onClick={() => router.push('/history')}>
               <ListItemText primary="History" />
             </ListItem>
-            <ListItem onClick={() => router.push('/tutorial')}>
-              <ListItemText primary="Tutorial" />
-            </ListItem>
-            <ListItem onClick={() => router.push('/faq')}>
-              <ListItemText primary="FAQ" />
-            </ListItem>
-            {/* Add more navigation items here */}
           </List>
         </Drawer>
       )}
