@@ -17,7 +17,7 @@ export default function PoemGenerator() {
   const [userMessage, setUserMessage] = useState<string>("");
   const [messages, setMessages] = useState<Array<{ type: 'user' | 'poem', text: string, time: string }>>([]);
 
-//test 2
+//test 3
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
