@@ -17,7 +17,7 @@ export default function PoemGenerator() {
   const [userMessage, setUserMessage] = useState<string>("");
   const [messages, setMessages] = useState<Array<{ type: 'user' | 'poem', text: string, time: string }>>([]);
 
-//test 45
+//test 6
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -50,7 +50,7 @@ export default function PoemGenerator() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Box sx={{ flexGrow: 1, overflowY: "auto", p: 2, borderBottom: "1px solid #ddd", textAlign: "left" }}>
-        {messages.map((message, i) => (
+        {messages.map((message: { type: string; time: any; text: any; }, i: any) => (
           <Box key={i} sx={{ display: "flex", flexDirection: message.type === 'user' ? "row-reverse" : "row", alignItems: "center", my: 1 }}>
             <Avatar>{message.type === 'user' ? (userInfo ? userInfo.email.charAt(0).toUpperCase() : "U") : "P"}</Avatar>
             <Tooltip title={message.time} arrow>
@@ -69,7 +69,7 @@ export default function PoemGenerator() {
       </Box>
       <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", p: 2, backgroundColor: "#f9f9f9", position: "sticky", bottom: 0 }}>
         <TextField variant="outlined" placeholder={`Write a poem to ${recipient}`} onChange={(e: ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)} sx={{ flexGrow: 1, mr: 1 }} />
-        <Autocomplete value={mood} onChange={(_, newValue) => { if (newValue) { setMood(newValue); } }} options={["Happy", "Sad", "Calm", "Sentimental", "Hopeful", "Lighthearted", "Humorous", "Optimistic", "Anger", "Mysterious", "Flirty", "Endearing", "Lovely", "Funny", "Fear", "Melancholy", "Che"]} renderInput={(params) => (<TextField {...params} label="Mood" variant="outlined" />)} sx={{ mr: 1 }} />
+        <Autocomplete value={mood} onChange={(_: any, newValue: any) => { if (newValue) { setMood(newValue); } }} options={["Happy", "Sad", "Calm", "Sentimental", "Hopeful", "Lighthearted", "Humorous", "Optimistic", "Anger", "Mysterious", "Flirty", "Endearing", "Lovely", "Funny", "Fear", "Melancholy", "Che"]} renderInput={(params: unknown) => (<TextField {...params} label="Mood" variant="outlined" />)} sx={{ mr: 1 }} />
         <IconButton type="submit" color="primary">{loading ? <CircularProgress size={24} /> : <SendIcon />}</IconButton>
       </Box>
     </Box>
